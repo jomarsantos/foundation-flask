@@ -1,0 +1,10 @@
+version: "2"
+services:
+  app:
+    build: .
+    container_name: foundation
+    ports:
+      - "4001:4000"
+    restart: always
+    volumes:
+      - .:/usr/src/app
