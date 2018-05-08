@@ -1,11 +1,20 @@
-from flask import Flask
+from flask import Flask, request
 import yaml
 
 app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return "Hello, Worlds!"
+import routeA
+@app.route('/api/test', methods=['GET', 'POST'])
+def test():
+    if request.method == 'GET':
+        return routeA.get()
+    else:
+        return routeA.post()
+
+import routeB
+@app.route('/api/user/<username>')
+def user(username):
+    return routeB.get(username)
 
 with open("./config.yaml", 'r') as stream:
     try:
