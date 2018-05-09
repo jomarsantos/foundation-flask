@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 import yaml
 
 app = Flask(__name__)
@@ -20,3 +21,4 @@ db = SQLAlchemy()
 app.config['SQLALCHEMY_DATABASE_URI'] = config['db']['uri']
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = config['db']['track_modifications']
 db.init_app(app)
+migrate = Migrate(app, db)
