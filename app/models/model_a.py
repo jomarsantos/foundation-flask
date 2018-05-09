@@ -1,5 +1,5 @@
 from app.models import db
-from app.models.base_model import Base
+from app.models.base import Base
 
 class ModelA(Base):
 
