@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 # ROUTES
 from app.module_a.controllers import module_a
-print(module_a)
 app.register_blueprint(module_a)
 
 # CONFIG
