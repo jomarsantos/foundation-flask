@@ -1,9 +1,9 @@
-from app.base_model import Base
-from app import db
+from app.models import db
+from app.models.base_model import Base
 
-class Test(Base):
+class ModelA(Base):
 
-    __tablename__ = 'test'
+    __tablename__ = 'modela'
 
     # User Name
     name = db.Column(db.String(128), nullable=False)
