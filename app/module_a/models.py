@@ -1,4 +1,5 @@
 from app.base_model import Base
+from app import db
 
 class Test(Base):
 
@@ -13,7 +14,6 @@ class Test(Base):
 
     # Authorisation Data: role & status
     role = db.Column(db.SmallInteger, nullable=False)
-    status = db.Column(db.SmallInteger, nullable=False)
 
     # New instance instantiation procedure
     def __init__(self, name, email, password):
