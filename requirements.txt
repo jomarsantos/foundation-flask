@@ -3,3 +3,4 @@ Flask-SQLAlchemy==2.3.2
 Flask-Migrate===2.1.1
 PyYAML==3.12
 psycopg2===2.7.4
+PyJWT==1.6.4
