@@ -12,9 +12,6 @@ class User(Base):
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
 
-    # Authorisation Data: role & status
-    role = db.Column(db.SmallInteger, nullable=False)
-
     # New instance instantiation procedure
     def __init__(self, name, email, password):
         self.name     = name

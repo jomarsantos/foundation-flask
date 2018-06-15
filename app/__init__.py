@@ -32,6 +32,13 @@ def page_not_found(e):
         'msg': 'This endpoint does not exist.',
     }), HTTPStatus.NOT_FOUND
 
+# INVALID METHODS
+@app.errorhandler(HTTPStatus.METHOD_NOT_ALLOWED.value)
+def method_not_allowed(e):
+    return jsonify({
+        'msg': 'This endpoint does not support this method.',
+    }), HTTPStatus.METHOD_NOT_ALLOWED
+
 # SERVER ERRORS
 @app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR.value)
 def inter_serveor_error(e):
