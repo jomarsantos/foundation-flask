@@ -1,4 +1,7 @@
-from flask import Blueprint, request
+import datetime
+from flask import Blueprint, request, jsonify
+from http import HTTPStatus
+from sqlalchemy import exc
 from app.models import db
 from app.models.user import User
 from app.utils.jwt_validator import login_required
@@ -8,10 +11,34 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 # login
 @user.route('/register', methods=['POST'])
 def register():
-    test = User(name='Jomar', email='jomaroliversantos@gmail.com', password='abc123')
-    db.session.add(test)
+    # validate body
+
+    # create user
+    try:
+        user = User(
+            email=request.json['email'],
+            password=request.json['password'],
+            username=request.json['username'],
+            first_name=request.json['first_name'],
+            last_name=request.json['last_name'],
+            birthday=datetime.date(1994, 9, 21),
+            city=request.json['city'],
+            country=request.json['country']
+        )
+    except exc.IntegrityError:
+        return jsonify({
+            'success': False,
+            'msg': 'Account already exists for this email.',
+        }), HTTPStatus.OK
+
+    db.session.add(user)
     db.session.commit()
-    return "A - Test1 - POST"
+
+    return jsonify({
+        'user': dict(user),
+        'success': True,
+        'msg': 'Successfully registered.',
+    }), HTTPStatus.OK
 
 @user.route('/test1', methods=['GET', 'POST'])
 def test1():

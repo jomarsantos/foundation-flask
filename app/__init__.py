@@ -36,12 +36,12 @@ def page_not_found(e):
 @app.errorhandler(HTTPStatus.METHOD_NOT_ALLOWED.value)
 def method_not_allowed(e):
     return jsonify({
-        'msg': 'This endpoint does not support this method.',
+        'msg': 'This endpoint does not support this method.'
     }), HTTPStatus.METHOD_NOT_ALLOWED
 
 # SERVER ERRORS
 @app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR.value)
-def inter_serveor_error(e):
+def internal_server_error(e):
     return jsonify({
         'msg': 'Internal server error.',
     }), HTTPStatus.INTERNAL_SERVER_ERROR
