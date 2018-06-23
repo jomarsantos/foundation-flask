@@ -2,8 +2,8 @@ import datetime
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from sqlalchemy import exc
-from app.models import db
-from app.models.user import User
+from app.main import db
+from app.user import User
 from app.utils.jwt_validator import login_required
 
 user = Blueprint('user', __name__, url_prefix='/api/user')

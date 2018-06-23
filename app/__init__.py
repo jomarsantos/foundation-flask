@@ -5,11 +5,11 @@ from http import HTTPStatus
 import yaml
 
 # IMPORT MODELS
-from app.models import db
-from app.models.user import User
+from app.main import db
+from app.user import User
 
 # IMPORT ROUTES
-from app.routes.user import user
+from app.user.routes import user
 routes = [user]
 
 app = Flask(__name__)
