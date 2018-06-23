@@ -5,14 +5,12 @@ class User(Base):
 
     __tablename__ = 'user'
 
-    # Identification Data: email & password
-    email = db.Column(db.String(128), nullable=False, unique=True)
+    # Identification Data
+    username = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
 
-    # User Name
-    username = db.Column(db.String(128), nullable=False, unique=True)
-
     # Information
+    email = db.Column(db.String(128), nullable=False)
     first_name = db.Column(db.String(128), nullable=False)
     last_name = db.Column(db.String(128), nullable=False)
     birthday = db.Column(db.Date(), nullable=False)
@@ -33,4 +31,4 @@ class User(Base):
         self.country = country
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<User %e>' % (self.username)
