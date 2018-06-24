@@ -2,7 +2,7 @@ import datetime
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
 from sqlalchemy import exc
-from app.main import db
+from app.main import db, flask_app
 from app.user import User
 from app.utils.jwt_validator import login_required
 
@@ -55,3 +55,5 @@ def test1():
 @login_required
 def test2(param):
     return "A - Test2 - GET - " + param
+
+flask_app.register_blueprint(user)

@@ -4,14 +4,8 @@ import yaml
 from app.main import flask_app, db
 import app.error_handlers
 
-# IMPORT MODELS
-import app.user
-
 # IMPORT ROUTES
-from app.user.routes import user
-routes = [user]
-for route in routes:
-    flask_app.register_blueprint(route)
+import app.user.routes
 
 # IMPORT CONFIG
 with open("./config.yaml", 'r') as stream:

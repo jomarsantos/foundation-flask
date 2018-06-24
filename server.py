@@ -1,6 +1,5 @@
 import app
 import app.main
-import yaml
 
 # SERVER
 if __name__ == '__main__':
