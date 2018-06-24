@@ -1,3 +1,0 @@
-db:
-  uri: 'postgresql://testuser:password@postgres:5432/testdb'
-  track_modifications: False

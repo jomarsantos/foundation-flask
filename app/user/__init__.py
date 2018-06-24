@@ -1,4 +1,5 @@
-from app.main import db, Base
+from app.base_model import Base
+from app.main import db
 
 class User(Base):
 

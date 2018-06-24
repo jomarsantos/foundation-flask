@@ -11,7 +11,11 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 # login
 @user.route('/register', methods=['POST'])
 def register():
-    # validate body
+    # validate request params/body
+    # serialize data
+    # deserialize data
+    print("HI")
+    print(request.get_json())
 
     # create user
     try:
