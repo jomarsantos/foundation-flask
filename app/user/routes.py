@@ -50,7 +50,7 @@ def test1():
 
 @user.route('/test2/<param>')
 @login_required
-def test2(param):
+def test2(user, param):
     return "A - Test2 - GET - " + param
 
 flask_app.register_blueprint(user)

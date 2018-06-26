@@ -30,5 +30,5 @@ def login_required(f):
                 'msg': message,
             }), error
 
-        return f(*args, **kwargs)
+        return f(decodedJwt, *args, **kwargs)
     return decorated_function
