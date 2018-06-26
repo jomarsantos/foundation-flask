@@ -16,7 +16,7 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 @user.route('', methods=['POST'])
 def register():
     # Validate request
-    data, errors = validate_request(request, user_schema)
+    user, errors = validate_request(request, user_schema)
     if errors:
         return jsonify({
             'success': False,
@@ -26,7 +26,7 @@ def register():
 
     # Attempt to add user
     try:
-        db.session.add(data)
+        db.session.add(user)
         db.session.commit()
     except exc.IntegrityError:
         return jsonify({
@@ -36,7 +36,7 @@ def register():
 
     # Success, return user
     return jsonify({
-        'user': user_schema.dump(data).data,
+        'user': user_schema.dump(user).data,
         'success': True,
         'msg': 'Successfully registered.',
     }), HTTPStatus.OK
