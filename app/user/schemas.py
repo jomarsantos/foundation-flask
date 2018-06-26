@@ -5,7 +5,7 @@ from marshmallow import post_load, fields
 class UserSchema(ma.ModelSchema):
     class Meta:
         model = User
-    email = fields.Email()
+    email = fields.Email(required=True)
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
