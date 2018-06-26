@@ -1,45 +1,42 @@
 import datetime
 from flask import Blueprint, request, jsonify
 from http import HTTPStatus
+from marshmallow import ValidationError
 from sqlalchemy import exc
 from app.main import db, flask_app
 from app.user import User
+from app.user.schemas import user_schema
 from app.utils.jwt_validator import login_required
+from app.utils.requests import validate_request
+from flask_marshmallow import pprint
 
 user = Blueprint('user', __name__, url_prefix='/api/user')
 
 # login
-@user.route('/register', methods=['POST'])
+@user.route('', methods=['POST'])
 def register():
-    # validate request params/body
-    # serialize data
-    # deserialize data
-    print("HI")
-    print(request.get_json())
+    # Validate request
+    data, errors = validate_request(request, user_schema)
+    if errors:
+        return jsonify({
+            'success': False,
+            'msg': 'Request parameters are invalid',
+            'errors': errors
+        }), HTTPStatus.OK
 
-    # create user
+    # Attempt to add user
     try:
-        user = User(
-            email=request.json['email'],
-            password=request.json['password'],
-            username=request.json['username'],
-            first_name=request.json['first_name'],
-            last_name=request.json['last_name'],
-            birthday=datetime.date(1994, 9, 21),
-            city=request.json['city'],
-            country=request.json['country']
-        )
+        db.session.add(data)
+        db.session.commit()
     except exc.IntegrityError:
         return jsonify({
             'success': False,
-            'msg': 'Account already exists for this email.',
+            'msg': 'Account already exists for this username.',
         }), HTTPStatus.OK
 
-    db.session.add(user)
-    db.session.commit()
-
+    # Success, return user
     return jsonify({
-        'user': dict(user),
+        'user': user_schema.dump(data).data,
         'success': True,
         'msg': 'Successfully registered.',
     }), HTTPStatus.OK
