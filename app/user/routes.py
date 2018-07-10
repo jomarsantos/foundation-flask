@@ -14,19 +14,19 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 
 @user.route('', methods=['GET'])
 @login_required
-def getUser(user):
-    user = db.session.query(User).filter(User.id == user['id']).first()
+def getUser(jwt_payload):
+    user = db.session.query(User).filter(User.id == jwt_payload['id']).first()
 
     if user is None:
         return jsonify({
             'success': False,
-            'msg': 'No user exists with id %s.' % user['id'],
+            'msg': 'No user exists with id %s.' % jwt_payload['id'],
         }), HTTPStatus.OK
 
     return jsonify({
         'success': True,
         'user': user_schema.dump(user).data,
-        'msg': 'Successfully found user with id %s.' % user['id'],
+        'msg': 'Successfully found user with id %s.' % jwt_payload['id'],
     }), HTTPStatus.OK
 
 @user.route('', methods=['POST'])
@@ -59,7 +59,7 @@ def register():
 
 @user.route('/<user_id>', methods=['GET'])
 @login_required
-def test2(user, user_id):
+def test2(jwt_payload, user_id):
     user = db.session.query(User).filter(User.id == user_id).first()
 
     if user is None:
