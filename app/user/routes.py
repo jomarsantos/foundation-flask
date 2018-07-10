@@ -21,7 +21,7 @@ def getUser(jwt_payload):
         return jsonify({
             'success': False,
             'msg': 'No user exists with id %s.' % jwt_payload['id'],
-        }), HTTPStatus.OK
+        }), HTTPStatus.BAD_REQUEST
 
     return jsonify({
         'success': True,
@@ -38,7 +38,7 @@ def register():
             'success': False,
             'msg': 'Request parameters are invalid',
             'error': errors
-        }), HTTPStatus.OK
+        }), HTTPStatus.BAD_REQUEST
 
     # Attempt to add user
     try:
@@ -48,7 +48,7 @@ def register():
         return jsonify({
             'success': False,
             'msg': 'Account already exists for this username.',
-        }), HTTPStatus.OK
+        }), HTTPStatus.BAD_REQUEST
 
     # Success, return user
     return jsonify({
@@ -67,7 +67,7 @@ def test2(jwt_payload, user_id):
             'success': False,
             'user': None,
             'msg': 'No user exists with id %s.' % user_id,
-        }), HTTPStatus.OK
+        }), HTTPStatus.BAD_REQUEST
 
     return jsonify({
         'success': True,
