@@ -15,20 +15,18 @@ user = Blueprint('user', __name__, url_prefix='/api/user')
 @user.route('', methods=['GET'])
 @login_required
 def getUser(user):
-    print(user)
     user = db.session.query(User).filter(User.id == user['id']).first()
 
     if user is None:
         return jsonify({
-            'user': None,
-            'success': True,
-            'msg': 'No user exists with id %s.' % user_id,
+            'success': False,
+            'msg': 'No user exists with id %s.' % user['id'],
         }), HTTPStatus.OK
 
     return jsonify({
-        'user': user_schema.dump(user).data,
         'success': True,
-        'msg': 'Successfully found user with id %s.' % user_id,
+        'user': user_schema.dump(user).data,
+        'msg': 'Successfully found user with id %s.' % user['id'],
     }), HTTPStatus.OK
 
 @user.route('', methods=['POST'])
@@ -39,7 +37,7 @@ def register():
         return jsonify({
             'success': False,
             'msg': 'Request parameters are invalid',
-            'errors': errors
+            'error': errors
         }), HTTPStatus.OK
 
     # Attempt to add user
@@ -54,8 +52,8 @@ def register():
 
     # Success, return user
     return jsonify({
-        'user': user_schema.dump(user).data,
         'success': True,
+        'user': user_schema.dump(user).data,
         'msg': 'Successfully registered.',
     }), HTTPStatus.OK
 
@@ -66,14 +64,14 @@ def test2(user, user_id):
 
     if user is None:
         return jsonify({
+            'success': False,
             'user': None,
-            'success': True,
             'msg': 'No user exists with id %s.' % user_id,
         }), HTTPStatus.OK
 
     return jsonify({
-        'user': user_schema.dump(user).data,
         'success': True,
+        'user': user_schema.dump(user).data,
         'msg': 'Successfully found user with id %s.' % user_id,
     }), HTTPStatus.OK
 
