@@ -41,6 +41,7 @@ def register():
         }), HTTPStatus.BAD_REQUEST
 
     # Attempt to add user
+    user.hash_password(request.get_json()['password'])
     try:
         db.session.add(user)
         db.session.commit()
@@ -51,9 +52,11 @@ def register():
         }), HTTPStatus.BAD_REQUEST
 
     # Success, return user
+    user_data = user_schema.dump(user).data
+    user_data.pop('password', None)
     return jsonify({
         'success': True,
-        'user': user_schema.dump(user).data,
+        'user': user_data,
         'msg': 'Successfully registered.',
     }), HTTPStatus.OK
 

@@ -1,5 +1,6 @@
 from app.base_model import Base
 from app.main import db
+from passlib.apps import custom_app_context
 
 class User(Base):
 
@@ -7,7 +8,7 @@ class User(Base):
 
     # Identification
     username = db.Column(db.String(128), nullable=False, unique=True)
-    password = db.Column(db.String(192), nullable=False)
+    password = db.Column(db.String(192))
 
     # Information
     email = db.Column(db.String(128), nullable=False)
@@ -19,3 +20,9 @@ class User(Base):
 
     def __repr__(self):
         return '<User %e>' % (self.username)
+
+    def hash_password(self, password):
+        self.password = custom_app_context.encrypt(password)
+
+    def verify_password(self, password):
+        return custom_app_context.verify(password, self.password_hash)
