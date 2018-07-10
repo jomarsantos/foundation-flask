@@ -19,10 +19,10 @@ class User(Base):
     country = db.Column(db.String(128), nullable=True)
 
     def __repr__(self):
-        return '<User %e>' % (self.username)
+        return '<User %s>' % (self.username)
 
     def hash_password(self, password):
         self.password = custom_app_context.encrypt(password)
 
     def verify_password(self, password):
-        return custom_app_context.verify(password, self.password_hash)
+        return custom_app_context.verify(password, self.password)

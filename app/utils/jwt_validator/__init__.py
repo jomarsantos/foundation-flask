@@ -18,7 +18,7 @@ def login_required(f):
                 decodedJwt = jwt.decode(encodedJwt, 'secret', algorithms=['HS256'])
             except Exception:
                 error = HTTPStatus.UNAUTHORIZED
-                message = 'Unable to decode JWT successfully'
+                message = 'Unable to validate JWT successfully'
 
         else:
             error = HTTPStatus.UNAUTHORIZED
