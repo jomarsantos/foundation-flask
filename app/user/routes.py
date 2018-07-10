@@ -12,7 +12,25 @@ from flask_marshmallow import pprint
 
 user = Blueprint('user', __name__, url_prefix='/api/user')
 
-# login
+@user.route('', methods=['GET'])
+@login_required
+def getUser(user):
+    print(user)
+    user = db.session.query(User).filter(User.id == user['id']).first()
+
+    if user is None:
+        return jsonify({
+            'user': None,
+            'success': True,
+            'msg': 'No user exists with id %s.' % user_id,
+        }), HTTPStatus.OK
+
+    return jsonify({
+        'user': user_schema.dump(user).data,
+        'success': True,
+        'msg': 'Successfully found user with id %s.' % user_id,
+    }), HTTPStatus.OK
+
 @user.route('', methods=['POST'])
 def register():
     # Validate request
@@ -41,16 +59,22 @@ def register():
         'msg': 'Successfully registered.',
     }), HTTPStatus.OK
 
-@user.route('/test1', methods=['GET', 'POST'])
-def test1():
-    if request.method == 'GET':
-        return "A - Test1 - GET"
-    else:
-        return "A - Test1 - POST"
-
-@user.route('/test2/<param>')
+@user.route('/<user_id>', methods=['GET'])
 @login_required
-def test2(user, param):
-    return "A - Test2 - GET - " + param
+def test2(user, user_id):
+    user = db.session.query(User).filter(User.id == user_id).first()
+
+    if user is None:
+        return jsonify({
+            'user': None,
+            'success': True,
+            'msg': 'No user exists with id %s.' % user_id,
+        }), HTTPStatus.OK
+
+    return jsonify({
+        'user': user_schema.dump(user).data,
+        'success': True,
+        'msg': 'Successfully found user with id %s.' % user_id,
+    }), HTTPStatus.OK
 
 flask_app.register_blueprint(user)
