@@ -7,8 +7,11 @@ class UserSchema(ma.ModelSchema):
         model = User
     email = fields.Email(required=True)
 
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+user_schema = UserSchema(exclude=[
+    'password',
+    'date_created',
+    'birthday',
+])
 
 class UserLoginSchema(Schema):
     username = fields.Str(required=True)
