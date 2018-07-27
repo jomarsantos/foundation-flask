@@ -6,7 +6,7 @@ from marshmallow import ValidationError
 from sqlalchemy import exc
 from app.main import db, flask_app
 from app.user import User
-from app.user.schemas import user_schema, user_login_schema
+from app.user.schemas import user_schema, user_register_request_schema, user_login_request_schema
 from app.utils.jwt_validator import login_required
 from app.utils.requests import validate_request
 from flask_marshmallow import pprint
@@ -33,7 +33,7 @@ def get_self(jwt_payload):
 @user.route('', methods=['POST'])
 def register():
     # Validate request
-    user, errors = validate_request(request, user_schema)
+    user, errors = validate_request(request, user_register_request_schema)
     if errors:
         return jsonify({
             'success': False,
@@ -49,7 +49,7 @@ def register():
     except exc.IntegrityError:
         return jsonify({
             'success': False,
-            'msg': 'Account already exists for this username.',
+            'msg': 'Unable to create account.',
         }), HTTPStatus.BAD_REQUEST
 
     # Success, return user
@@ -81,7 +81,7 @@ def get_user(jwt_payload, user_id):
 
 @user.route('/login', methods=['POST'])
 def login():
-    login_credentials, errors = validate_request(request, user_login_schema)
+    login_credentials, errors = validate_request(request, user_login_request_schema)
     if errors:
         return jsonify({
             'success': False,
